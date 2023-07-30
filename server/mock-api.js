@@ -133,6 +133,7 @@ const recruits = [
 // 미들웨어
 app.use(express.json());
 app.use(basicLogger);
+app.use(express.static('dist'));
 
 // 토큰 파싱 미들웨어 [임시]
 const authMiddleware = (req, res, next) => {
