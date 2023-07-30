@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 
@@ -611,6 +612,10 @@ app.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
     },
   });
 });
+
+/* 그 외의 경로는 전부 Public 폴더의 경로로 Redirect */
+const publishPath = path.resolve(__dirname, 'dist/index.html');
+app.get('*', (req, res) => res.sendFile(publishPath));
 
 // Mock API 서버 실행
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
