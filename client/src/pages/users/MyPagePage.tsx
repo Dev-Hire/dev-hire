@@ -1,4 +1,4 @@
-import { getRecruits } from '@/api';
+import { getRecruits } from '@/api/recruits.api';
 import Layout from '@/components/layouts/Layout';
 import RecruitCard from '@/components/recruits/RecruitCard';
 import { Recruit } from '@/types/recruit';
@@ -39,11 +39,7 @@ const MyPagePage = () => {
     <Layout>
       <div className="my-page">
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={tabIndex}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
+          <Tabs value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="내 정보" />
             <Tab label="지원한 공고" />
           </Tabs>
@@ -56,22 +52,8 @@ const MyPagePage = () => {
                 <h3>프로필</h3>
               </div>
 
-              <TextField
-                fullWidth
-                margin="dense"
-                id="email"
-                label="이메일 주소"
-                type="email"
-                variant="standard"
-              />
-              <TextField
-                fullWidth
-                margin="dense"
-                id="password"
-                label="비밀번호"
-                type="password"
-                variant="standard"
-              />
+              <TextField fullWidth margin="dense" id="email" label="이메일 주소" type="email" variant="standard" />
+              <TextField fullWidth margin="dense" id="password" label="비밀번호" type="password" variant="standard" />
               <TextField
                 fullWidth
                 margin="dense"
@@ -88,14 +70,7 @@ const MyPagePage = () => {
                 type="password"
                 variant="standard"
               />
-              <TextField
-                fullWidth
-                margin="dense"
-                id="name"
-                label="이름"
-                type="text"
-                variant="standard"
-              />
+              <TextField fullWidth margin="dense" id="name" label="이름" type="text" variant="standard" />
             </div>
 
             <div className="my-page-position">
