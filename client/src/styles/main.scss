@@ -1,4 +1,88 @@
-@import './common/reset.scss';
-@import './common/global.scss';
-@import './pages/my-page.scss';
-@import './pages/recruit.scss';
+// 초기화
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// 글로벌 스타일
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.content {
+  margin: 15px 0;
+}
+
+.layout-header .menu-button {
+  display: none;
+}
+
+.layout-header .header-logo {
+  width: fit-content;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.layout-header .header-searchbar {
+  margin-right: 5px;
+}
+
+.layout-header .header-avatar {
+  cursor: pointer;
+}
+
+.link {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: #000;
+  }
+}
+
+// 채용 페이지 스타일
+.recruit-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 20px;
+}
+
+.recruit-content {
+  /* 특정 단위로 텍스트를 자르기 위한 구문 */
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 텍스트를 자를 때 원하는 단위 ex) 3줄 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.recruit-card {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .layout-header {
+    .menu-button {
+      display: block;
+    }
+
+    .menu-box {
+      display: none;
+    }
+
+    .header-avatar {
+      margin-left: 5px;
+    }
+  }
+}

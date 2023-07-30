@@ -3,8 +3,7 @@ import { User } from './users';
 export interface Recruit {
   id: string;
   title: string;
-  description: string;
-  company: string;
+  content: string;
   address: string;
   positions: Position[];
   salary: number;
@@ -30,10 +29,4 @@ export interface Position {
   experience: number;
 }
 
-export type Part =
-  | 'frontend'
-  | 'backend'
-  | 'planner'
-  | 'designer'
-  | 'publisher'
-  | 'manager';
+export type Part = 'frontend' | 'backend' | 'planner' | 'designer' | 'manager';

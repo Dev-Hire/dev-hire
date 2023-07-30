@@ -1,12 +1,13 @@
-import HeaderAuth from '@/components/layouts/HeaderAuth';
-import HeaderSearchbar from '@/components/layouts/HeaderSearchbar';
-import MenuIcon from '@mui/icons-material/Menu';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import HeaderSearchbar from './HeaderSearchbar';
+import HeaderAuth from './HeaderAuth';
 
 export default function LayoutHeader() {
   return (
@@ -18,6 +19,7 @@ export default function LayoutHeader() {
             size="large"
             edge="start"
             color="inherit"
+            aria-label="menu"
             sx={{ mr: 2 }}
           >
             <MenuIcon />

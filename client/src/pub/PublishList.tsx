@@ -10,30 +10,24 @@ import { PublishPageInfo, PageKey } from '../types/global';
 const PAGE_LIST: PublishPageInfo[] = [
   {
     key: 'pub-common',
-    label: '모달',
+    label: '공통',
     pages: [
       {
         key: 'alert',
-        label: '알림창',
-        isDone: true,
+        label: '알림',
+        isDone: false,
       },
 
       {
         key: 'confirm',
-        label: '확인창',
-        isDone: true,
-      },
-
-      {
-        key: 'toast',
-        label: '토스트',
-        isDone: true,
+        label: '확인',
+        isDone: false,
       },
 
       {
         key: 'loading',
-        label: '로딩창',
-        isDone: true,
+        label: '로딩',
+        isDone: false,
       },
     ],
   },
@@ -45,13 +39,13 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'login',
         label: '로그인',
-        isDone: true,
+        isDone: false,
       },
 
       {
         key: 'register',
         label: '회원가입',
-        isDone: true,
+        isDone: false,
       },
     ],
   },
@@ -63,7 +57,7 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'home',
         label: '홈',
-        isDone: true,
+        isDone: false,
       },
     ],
   },
@@ -73,21 +67,21 @@ const PAGE_LIST: PublishPageInfo[] = [
     label: '채용 공고',
     pages: [
       {
-        key: 'recruit-detail',
-        label: '공고 상세',
-        isDone: true,
+        key: 'recruit-add',
+        label: '공고 등록',
+        isDone: false,
       },
 
       {
-        key: 'recruit-add',
-        label: '공고 등록',
-        isDone: true,
+        key: 'recruit-detail',
+        label: '공고 상세',
+        isDone: false,
       },
 
       {
         key: 'recruit-edit',
         label: '공고 수정',
-        isDone: true,
+        isDone: false,
       },
     ],
   },
@@ -99,7 +93,7 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'my-page',
         label: '내 정보',
-        isDone: true,
+        isDone: false,
       },
     ],
   },
@@ -126,13 +120,14 @@ function PublishList() {
           <List
             key={key}
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            aria-label="contacts"
             subheader={<ListSubheader>{label}</ListSubheader>}
           >
-            {pages.map(({ key, label, isDone }) => (
+            {pages.map(({ key, label }) => (
               <ListItem key={key} disablePadding onClick={() => openPage(key)}>
                 <ListItemButton>
                   <ListItemIcon>
-                    <StarIcon color={isDone ? 'primary' : undefined} />
+                    <StarIcon />
                   </ListItemIcon>
                   <ListItemText primary={label} />
                 </ListItemButton>
