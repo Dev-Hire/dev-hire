@@ -99,7 +99,7 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'my-page',
         label: '내 정보',
-        isDone: false,
+        isDone: true,
       },
     ],
   },

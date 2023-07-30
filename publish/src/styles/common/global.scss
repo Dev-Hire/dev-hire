@@ -1,0 +1,60 @@
+// 글로벌 스타일
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.content {
+  margin: 5px 0;
+}
+
+.layout-header .menu-button {
+  display: none;
+}
+
+.layout-header .header-logo {
+  width: fit-content;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.layout-header .header-searchbar {
+  margin-right: 5px;
+}
+
+.layout-header .header-avatar {
+  cursor: pointer;
+}
+
+.link {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: #000;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .layout-header {
+    .menu-button {
+      display: block;
+    }
+
+    .menu-box {
+      display: none;
+    }
+
+    .header-avatar {
+      margin-left: 5px;
+    }
+  }
+}

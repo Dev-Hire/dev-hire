@@ -5,6 +5,7 @@ import ConfirmPage from '@/pages/common/ConfirmPage';
 import LoadingPage from '@/pages/common/LoadingPage';
 import ToastPage from '@/pages/common/ToastPage';
 import HomePage from '@/pages/home/HomePage';
+import MyPagePage from '@/pages/users/MyPagePage';
 import RecruitAddPage from '@/pages/recruits/RecruitAddPage';
 import RecruitDetailPage from '@/pages/recruits/RecruitDetailPage';
 import RecruitEditPage from '@/pages/recruits/RecruitEditPage';
@@ -34,6 +35,9 @@ const PublishRouter = () => {
 
         {/* 홈 */}
         <Route path="/home" element={<HomePage />} />
+
+        {/* 마이페이지 */}
+        <Route path="/my-page" element={<MyPagePage />} />
 
         {/* 채용 */}
         <Route path="/recruit-add" element={<RecruitAddPage />} />

@@ -1,4 +1,3 @@
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -7,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import { Recruit } from '@/types/recruit';
@@ -29,22 +29,20 @@ export default function RecruitCard({ recruit }: { recruit: Recruit }) {
 
       <CardContent>
         <Typography
-          className="recruit-content"
+          className="recruit-card-description"
           variant="body2"
           color="text.secondary"
         >
-          {recruit.content}
+          {recruit.description}
         </Typography>
       </CardContent>
 
-      <CardActions disableSpacing>
-        <IconButton>
-          <FavoriteIcon />
-        </IconButton>
-
+      <CardActions className="recruit-card-actions">
         <IconButton>
           <ShareIcon />
         </IconButton>
+
+        <Button>자세히보기</Button>
       </CardActions>
     </Card>
   );

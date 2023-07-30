@@ -30,4 +30,10 @@ export interface Position {
   experience: number;
 }
 
-export type Part = 'frontend' | 'backend' | 'planner' | 'designer' | 'manager';
+export type Part =
+  | 'frontend'
+  | 'backend'
+  | 'planner'
+  | 'designer'
+  | 'publisher'
+  | 'manager';

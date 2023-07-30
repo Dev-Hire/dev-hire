@@ -23,21 +23,20 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <DialogContent>
           <TextField
             autoFocus
+            fullWidth
             margin="dense"
             id="email"
             label="이메일 주소"
             type="email"
-            fullWidth
             variant="standard"
           />
 
           <TextField
-            autoFocus
+            fullWidth
             margin="dense"
             id="password"
             label="비밀번호"
             type="password"
-            fullWidth
             variant="standard"
           />
 
