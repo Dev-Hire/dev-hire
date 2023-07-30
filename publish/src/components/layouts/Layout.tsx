@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import LayoutHeader from './LayoutHeader';
+import LayoutHeader from '@/components/layouts/LayoutHeader';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (

@@ -10,23 +10,29 @@ import { PublishPageInfo, PageKey } from '../types/global';
 const PAGE_LIST: PublishPageInfo[] = [
   {
     key: 'pub-common',
-    label: '공통',
+    label: '모달',
     pages: [
       {
         key: 'alert',
-        label: '알림',
+        label: '알림창',
         isDone: false,
       },
 
       {
         key: 'confirm',
-        label: '확인',
+        label: '확인창',
+        isDone: false,
+      },
+
+      {
+        key: 'toast',
+        label: '토스트',
         isDone: false,
       },
 
       {
         key: 'loading',
-        label: '로딩',
+        label: '로딩창',
         isDone: false,
       },
     ],

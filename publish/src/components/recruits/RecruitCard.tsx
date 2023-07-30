@@ -9,7 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import { Recruit } from '../../types/recruit';
+import { Recruit } from '@/types/recruit';
 
 export default function RecruitCard({ recruit }: { recruit: Recruit }) {
   return (

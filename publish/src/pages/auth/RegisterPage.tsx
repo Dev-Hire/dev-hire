@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RegisterModal from '../components/auth/RegisterModal';
+import RegisterModal from '@/components/auth/RegisterModal';
 
 const LoginPage = () => {
   const [isOpen, setIsOpen] = useState(true);

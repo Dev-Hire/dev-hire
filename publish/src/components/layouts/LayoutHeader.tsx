@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import HeaderSearchbar from './HeaderSearchbar';
-import HeaderAuth from './HeaderAuth';
+import HeaderSearchbar from '@/components/layouts/HeaderSearchbar';
+import HeaderAuth from '@/components/layouts/HeaderAuth';
 
 export default function LayoutHeader() {
   return (

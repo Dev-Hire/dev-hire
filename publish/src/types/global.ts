@@ -1,6 +1,7 @@
 export type PageKey =
   | 'alert'
   | 'confirm'
+  | 'toast'
   | 'loading'
   | 'login'
   | 'register'
