@@ -7,14 +7,16 @@ const users = [
   {
     id: 'u1',
     email: 'admin@admin.com',
+    password: '1234',
     name: '관리자',
     positions: [],
-    password: '1234',
+    recruits: [],
     role: 'admin',
   },
   {
     id: 'u2',
     email: 'test@test.com',
+    password: '1234',
     name: '테스트',
     positions: [
       {
@@ -22,12 +24,13 @@ const users = [
         experience: 0,
       },
     ],
-    password: '1234',
+    recruits: ['r1'],
     role: 'developer',
   },
   {
     id: 'u3',
     email: 'test2@test2.com',
+    password: '1234',
     name: '테스트2',
     positions: [
       {
@@ -39,23 +42,25 @@ const users = [
         experience: 5,
       },
     ],
-    password: '1234',
+    recruits: ['r1', 'r2'],
     role: 'developer',
   },
   {
     id: 'u4',
     email: 'employer@employer.com',
+    password: '1234',
     name: '고용주',
     positions: [],
-    password: '1234',
+    recruits: [],
     role: 'employer',
   },
   {
     id: 'u5',
-    email: 'employer@employer2.com',
+    email: 'employer2@employer2.com',
+    password: '1234',
     name: '고용주2',
     positions: [],
-    password: '1234',
+    recruits: [],
     role: 'employer',
   },
 ];
@@ -84,14 +89,9 @@ const recruits = [
       'https://images.unsplash.com/photo-1497215728101-856f4ea42174',
       'https://images.unsplash.com/photo-1606857521015-7f9fcf423740',
     ],
-    user: {
-      id: 'u4',
-      email: 'employer@employer.com',
-      name: '고용주',
-      positions: [],
-      password: '1234',
-      role: 'employer',
-    },
+    applicants: ['u2', 'u3'],
+    user: 'u4',
+    isEnded: false,
     createdAt: '2023-07-29',
     updatedAt: '2023-07-29',
   },
@@ -104,12 +104,12 @@ const recruits = [
     address: '경기도 분당시 정자동',
     positions: [
       {
-        part: '프론트엔드',
-        experience: '3년 이상',
+        part: 'frontend',
+        experience: 2,
       },
       {
-        part: '백엔드',
-        experience: '3년 이상',
+        part: 'backend',
+        experience: 3,
       },
     ],
     salary: 50000000,
@@ -120,22 +120,13 @@ const recruits = [
       'https://images.unsplash.com/photo-1497215728101-856f4ea42174',
       'https://images.unsplash.com/photo-1606857521015-7f9fcf423740',
     ],
-    user: {
-      id: 'u5',
-      email: 'employer@employer2.com',
-      name: '고용주2',
-      positions: [],
-      password: '1234',
-      role: 'employer',
-    },
+    applicants: ['u3'],
+    user: 'u5',
+    isEnded: false,
     createdAt: '2023-07-29',
     updatedAt: '2023-07-29',
   },
 ];
-const basicLogger = (req, res, next) => {
-  console.log(`[${req.method}] ${req.url}`);
-  next();
-};
 
 // 미들웨어
 app.use(express.json());
@@ -185,7 +176,7 @@ app.post('/api/v1/auth/login', (req, res) => {
       message: '존재하지 않는 아이디입니다.',
     });
 
-  const user = users[userIndex];
+  const user = { ...users[userIndex] };
   if (user.password != password) {
     return res.json({ success: false, message: '계정 정보를 확인해주세요.' });
   }
@@ -227,10 +218,11 @@ app.post('/api/v1/auth/register', (req, res) => {
   const user = {
     id,
     email,
-    name,
     password,
-    role,
+    name,
     positions: [],
+    recruits: [],
+    role,
   };
   users.push(user);
 
@@ -254,20 +246,26 @@ app.get('/api/v1/recruits', (req, res) => {
   });
 });
 
-// 모집글 상세
+// 모집글 상세 조회
 app.get('/api/v1/recruits/:id', (req, res) => {
   const { id } = req.params;
-  const recruit = recruits.find((recruit) => recruit.id === id);
-  if (!recruit) {
+  const existingRecruit = recruits.find((recruit) => recruit.id === id);
+  if (!existingRecruit) {
     return res.json({
       success: false,
       message: '존재하지 않는 모집글입니다.',
     });
   }
+  const recruit = { ...existingRecruit };
+
+  // 작성자/지원자 정보 Populate
+  populate(recruit, {
+    user: 'user',
+    applicants: 'user',
+  });
 
   res.json({
     success: true,
-    message: '모집글이 조회되었습니다.',
     data: {
       recruit,
     },
@@ -298,6 +296,8 @@ app.post('/api/v1/recruits', authMiddleware, (req, res) => {
     endDate,
     images,
     user: req.user,
+    positions: [],
+    applicants: [],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -306,25 +306,6 @@ app.post('/api/v1/recruits', authMiddleware, (req, res) => {
   res.json({
     success: true,
     message: '모집글이 등록되었습니다.',
-    data: {
-      recruit,
-    },
-  });
-});
-
-// 모집글 상세 조회
-app.get('/api/v1/recruits/:id', (req, res) => {
-  const { id } = req.params;
-  const recruit = recruits.find((recruit) => recruit.id === id);
-  if (!recruit) {
-    return res.json({
-      success: false,
-      message: '존재하지 않는 모집글입니다.',
-    });
-  }
-
-  res.json({
-    success: true,
     data: {
       recruit,
     },
@@ -352,7 +333,7 @@ app.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
     });
   }
 
-  const recruit = recruits[recruitIndex];
+  const recruit = { ...recruits[recruitIndex] };
   if (recruit.user.id !== req.user.id) {
     return res.json({
       success: false,
@@ -391,7 +372,7 @@ app.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
     });
   }
 
-  const recruit = recruits[recruitIndex];
+  const recruit = { ...recruits[recruitIndex] };
   if (recruit.user.id !== req.user.id) {
     return res.json({
       success: false,
@@ -409,7 +390,7 @@ app.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
 
 // 내 정보
 app.get('/api/v1/users/me', authMiddleware, (req, res) => {
-  const user = req.user;
+  const user = { ...req.user };
   if (!user) {
     return res.json({
       success: false,
@@ -417,10 +398,90 @@ app.get('/api/v1/users/me', authMiddleware, (req, res) => {
     });
   }
 
+  // 지원한 채용공고 Populate
+  populate(user, {
+    recruits: 'recruit',
+  });
+
   res.json({
     success: true,
     data: {
       user,
+    },
+  });
+});
+
+// 채용 지원
+app.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
+  if (recruitIndex < 0) {
+    return res.json({
+      success: false,
+      message: '존재하지 않는 모집글입니다.',
+    });
+  }
+
+  const recruit = { ...recruits[recruitIndex] };
+  const user = { ...req.user };
+  if (recruit.applicants.includes(user.id)) {
+    return res.json({
+      success: false,
+      message: '이미 지원한 채용공고입니다.',
+    });
+  }
+
+  recruit.applicants.push(user.id);
+  recruit.updatedAt = new Date().toISOString();
+  recruits[recruitIndex] = recruit;
+
+  user.recruits.push(recruit.id);
+  const userIndex = users.findIndex((user) => user.id === user.id);
+  users[userIndex] = user;
+
+  res.json({
+    success: true,
+    message: '채용공고에 지원했습니다.',
+    data: {
+      recruit,
+    },
+  });
+});
+
+// 채용 지원 취소
+app.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
+
+  if (recruitIndex < 0) {
+    return res.json({
+      success: false,
+      message: '존재하지 않는 모집글입니다.',
+    });
+  }
+
+  const recruit = { ...recruits[recruitIndex] };
+  const user = { ...req.user };
+  if (!recruit.applicants.includes(user.id)) {
+    return res.json({
+      success: false,
+      message: '지원하지 않은 채용공고입니다.',
+    });
+  }
+
+  recruit.applicants = recruit.applicants.filter((id) => id !== user.id);
+  recruit.updatedAt = new Date().toISOString();
+  recruits[recruitIndex] = recruit;
+
+  user.recruits = user.recruits.filter((id) => id !== recruit.id);
+  const userIndex = users.findIndex((user) => user.id === user.id);
+  users[userIndex] = user;
+
+  res.json({
+    success: true,
+    message: '채용공고 지원을 취소했습니다.',
+    data: {
+      recruit,
     },
   });
 });
@@ -445,7 +506,7 @@ app.put('/api/v1/users/me', authMiddleware, (req, res) => {
   }
 
   const userIndex = users.findIndex((user) => user.email === loginUser.email);
-  const user = users[userIndex];
+  const user = { ...users[userIndex] };
   if (name) user.name = name;
   if (positions) user.positions = positions;
   if (newPassword) user.password = newPassword;
@@ -461,5 +522,100 @@ app.put('/api/v1/users/me', authMiddleware, (req, res) => {
   });
 });
 
+// 채용 종료
+app.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
+  if (recruitIndex < 0) {
+    return res.json({
+      success: false,
+      message: '존재하지 않는 모집글입니다.',
+    });
+  }
+
+  const recruit = { ...recruits[recruitIndex] };
+  const user = { ...req.user };
+  if (recruit.user !== user.id) {
+    return res.json({
+      success: false,
+      message: '권한이 없습니다.',
+    });
+  }
+
+  recruit.isEnded = true;
+  recruit.updatedAt = new Date().toISOString();
+  recruits[recruitIndex] = recruit;
+
+  res.json({
+    success: true,
+    message: '채용공고가 종료되었습니다.',
+    data: {
+      recruit,
+    },
+  });
+});
+
+// 채용 재시작
+app.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
+  if (recruitIndex < 0) {
+    return res.json({
+      success: false,
+      message: '존재하지 않는 모집글입니다.',
+    });
+  }
+
+  const recruit = { ...recruits[recruitIndex] };
+  const user = { ...req.user };
+  if (recruit.user !== user.id) {
+    return res.json({
+      success: false,
+      message: '권한이 없습니다.',
+    });
+  }
+
+  recruit.isEnded = false;
+  recruit.updatedAt = new Date().toISOString();
+  recruits[recruitIndex] = recruit;
+
+  res.json({
+    success: true,
+    message: '채용공고가 재시작되었습니다.',
+    data: {
+      recruit,
+    },
+  });
+});
+
 // Mock API 서버 실행
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+
+// Logger
+function basicLogger(req, _, next) {
+  console.log(`[${req.method}] ${req.url}`);
+  next();
+}
+
+// Populate 함수
+function populate(model, populates) {
+  for (const key in populates) {
+    const populate = populates[key];
+    const populateModel =
+      populate === 'user' ? users : populate === 'recruit' ? recruits : null;
+    if (!populateModel) continue;
+
+    const target = model[key];
+    if (typeof target === 'string') {
+      const targetId = target;
+      const populated = populateModel.find((user) => user.id === targetId);
+      model[key] = populated;
+    } else if (Array.isArray(target)) {
+      const targets = target.map((targetId, index) => {
+        const populated = populateModel.find((user) => user.id === targetId);
+        return populated;
+      });
+      model[key] = targets;
+    }
+  }
+}

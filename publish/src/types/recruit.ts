@@ -1,14 +1,11 @@
-export interface Position {
-  part: string;
-  experience: number;
-}
+import { User } from './users';
 
 export interface Recruit {
   id: string;
   title: string;
   content: string;
   address: string;
-  positions: Array<Position>;
+  positions: Position[];
   salary: number;
   startDate: string;
   endDate: string;
@@ -21,6 +18,15 @@ export interface Recruit {
     password: string;
     role: string;
   };
+  applicants: string[] | User[];
+  isEnded: boolean;
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Position {
+  part: Part;
+  experience: number;
+}
+
+export type Part = 'frontend' | 'backend' | 'planner' | 'designer' | 'manager';
