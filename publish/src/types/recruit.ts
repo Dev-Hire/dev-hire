@@ -3,7 +3,8 @@ import { User } from './users';
 export interface Recruit {
   id: string;
   title: string;
-  content: string;
+  description: string;
+  company: string;
   address: string;
   positions: Position[];
   salary: number;

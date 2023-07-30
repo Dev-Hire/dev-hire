@@ -68,8 +68,9 @@ const recruits = [
   {
     id: 'r1',
     title: '신입 웹 개발자 모집',
-    content:
-      '저희 개발월드에서 신입 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
+    description:
+      '저희 DevWorld에서 신입 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
+    company: 'DevWorld',
     address: '서울특별시 강남구 서초동',
     positions: [
       {
@@ -99,8 +100,9 @@ const recruits = [
   {
     id: 'r2',
     title: '경력 웹 개발자 모집',
-    content:
-      '저희 프로개발에서 경력 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
+    description:
+      '저희 DevPro에서 경력 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
+    company: 'DevPro',
     address: '경기도 분당시 정자동',
     positions: [
       {
@@ -276,7 +278,8 @@ app.get('/api/v1/recruits/:id', (req, res) => {
 app.post('/api/v1/recruits', authMiddleware, (req, res) => {
   const {
     title,
-    content,
+    description,
+    company,
     address,
     salary,
     positions,
@@ -285,10 +288,28 @@ app.post('/api/v1/recruits', authMiddleware, (req, res) => {
     images,
   } = req.body;
 
+  // 필수 값 확인
+  if (
+    !title ||
+    !description ||
+    !company ||
+    !address ||
+    !salary ||
+    !positions ||
+    !startDate ||
+    !endDate
+  ) {
+    return res.json({
+      success: false,
+      message: '필수 값이 누락되었습니다.',
+    });
+  }
+
   const recruit = {
     id: `r${recruits.length + 1}`,
     title,
-    content,
+    description,
+    company,
     address,
     salary,
     positions,
@@ -317,7 +338,8 @@ app.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   const {
     title,
-    content,
+    description,
+    company,
     address,
     salary,
     positions,
@@ -342,7 +364,8 @@ app.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
   }
 
   if (title) recruit.title = title;
-  if (content) recruit.content = content;
+  if (description) recruit.description = description;
+  if (company) recruit.company = company;
   if (address) recruit.address = address;
   if (salary) recruit.salary = salary;
   if (positions) recruit.positions = positions;

@@ -15,25 +15,25 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'alert',
         label: '알림창',
-        isDone: false,
+        isDone: true,
       },
 
       {
         key: 'confirm',
         label: '확인창',
-        isDone: false,
+        isDone: true,
       },
 
       {
         key: 'toast',
         label: '토스트',
-        isDone: false,
+        isDone: true,
       },
 
       {
         key: 'loading',
         label: '로딩창',
-        isDone: false,
+        isDone: true,
       },
     ],
   },
@@ -45,13 +45,13 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'login',
         label: '로그인',
-        isDone: false,
+        isDone: true,
       },
 
       {
         key: 'register',
         label: '회원가입',
-        isDone: false,
+        isDone: true,
       },
     ],
   },
@@ -63,7 +63,7 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'home',
         label: '홈',
-        isDone: false,
+        isDone: true,
       },
     ],
   },
@@ -73,14 +73,14 @@ const PAGE_LIST: PublishPageInfo[] = [
     label: '채용 공고',
     pages: [
       {
-        key: 'recruit-add',
-        label: '공고 등록',
-        isDone: false,
+        key: 'recruit-detail',
+        label: '공고 상세',
+        isDone: true,
       },
 
       {
-        key: 'recruit-detail',
-        label: '공고 상세',
+        key: 'recruit-add',
+        label: '공고 등록',
         isDone: false,
       },
 
@@ -126,14 +126,13 @@ function PublishList() {
           <List
             key={key}
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            aria-label="contacts"
             subheader={<ListSubheader>{label}</ListSubheader>}
           >
-            {pages.map(({ key, label }) => (
+            {pages.map(({ key, label, isDone }) => (
               <ListItem key={key} disablePadding onClick={() => openPage(key)}>
                 <ListItemButton>
                   <ListItemIcon>
-                    <StarIcon />
+                    <StarIcon color={isDone ? 'primary' : undefined} />
                   </ListItemIcon>
                   <ListItemText primary={label} />
                 </ListItemButton>

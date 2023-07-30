@@ -19,7 +19,6 @@ export default function LayoutHeader() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
             sx={{ mr: 2 }}
           >
             <MenuIcon />

@@ -22,11 +22,7 @@ export default function RecruitCard({ recruit }: { recruit: Recruit }) {
       />
 
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            유저
-          </Avatar>
-        }
+        avatar={<Avatar sx={{ bgcolor: red[500] }}>유저</Avatar>}
         title={recruit.title}
         subheader={`${recruit.startDate} ~ ${recruit.endDate}`}
       />
@@ -42,10 +38,11 @@ export default function RecruitCard({ recruit }: { recruit: Recruit }) {
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+
+        <IconButton>
           <ShareIcon />
         </IconButton>
       </CardActions>

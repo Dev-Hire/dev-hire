@@ -50,10 +50,8 @@ export default function HeaderSearchbar() {
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="채용 공고 검색"
-        inputProps={{ 'aria-label': 'search' }}
-      />
+
+      <StyledInputBase placeholder="채용 공고 검색" />
     </Search>
   );
 }
