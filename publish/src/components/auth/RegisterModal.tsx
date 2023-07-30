@@ -1,26 +1,24 @@
-import React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
-export default function RegisterModal({
-  isOpen,
-  hide,
-}: {
+interface RegisterModalProps {
   isOpen: boolean;
-  hide: (isConfirm: boolean) => void;
-}) {
-  const handleClose = () => {
-    hide(false);
+  onClose?: (isSuccess: boolean) => void;
+}
+
+export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
+  const handleClose = (isSuccess: boolean = false) => {
+    if (typeof onClose === 'function') onClose(isSuccess);
   };
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={handleClose}>
+      <Dialog open={isOpen}>
         <DialogTitle>회원가입</DialogTitle>
         <DialogContent>
           <TextField
@@ -72,7 +70,7 @@ export default function RegisterModal({
         </DialogContent>
 
         <DialogActions>
-          <Button color="error" onClick={handleClose}>
+          <Button color="error" onClick={() => handleClose(false)}>
             취소
           </Button>
           <Button>회원가입</Button>
