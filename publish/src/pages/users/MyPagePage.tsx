@@ -2,16 +2,18 @@ import { getRecruits } from '@/api';
 import Layout from '@/components/layouts/Layout';
 import RecruitCard from '@/components/recruits/RecruitCard';
 import { Recruit } from '@/types/recruit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
-  TextField,
-  Tab,
-  Tabs,
   Button,
   FormControl,
-  Select,
-  MenuItem,
+  IconButton,
   InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  TextField,
 } from '@mui/material';
 import { SyntheticEvent, useEffect, useState } from 'react';
 
@@ -91,7 +93,7 @@ const MyPagePage = () => {
                 margin="dense"
                 id="name"
                 label="이름"
-                type="name"
+                type="text"
                 variant="standard"
               />
             </div>
@@ -108,7 +110,7 @@ const MyPagePage = () => {
               </div>
 
               <div className="my-page-position-item">
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <FormControl sx={{ m: 1, minWidth: 200 }}>
                   <InputLabel>파트</InputLabel>
 
                   <Select>
@@ -121,7 +123,7 @@ const MyPagePage = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <FormControl sx={{ m: 1, minWidth: 100 }}>
                   <InputLabel>경력</InputLabel>
 
                   <Select>
@@ -133,6 +135,10 @@ const MyPagePage = () => {
                     <MenuItem value={5}>5년</MenuItem>
                   </Select>
                 </FormControl>
+
+                <IconButton color="error">
+                  <DeleteIcon />
+                </IconButton>
               </div>
             </div>
           </div>

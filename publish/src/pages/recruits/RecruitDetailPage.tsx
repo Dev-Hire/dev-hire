@@ -16,6 +16,7 @@ const RecruitDetailPage = () => {
 
         <div className="recruit-company">
           <div className="recruit-company-title">회사 정보</div>
+
           <ImageList sx={{ height: 250 }} cols={4}>
             <ImageListItem>
               <img
@@ -44,6 +45,7 @@ const RecruitDetailPage = () => {
             <div className="recruit-company-item">
               회사 이름: <strong>DevWorld</strong>
             </div>
+
             <div className="recruit-company-item">
               회사 주소: <strong>서울특별시 강남구 서초동</strong>
             </div>
@@ -86,10 +88,10 @@ const RecruitDetailPage = () => {
               연봉: <strong> 50,000,000원</strong>
             </div>
             <div className="recruit-etc-item">
-              지원자: <strong>3명</strong>
+              채용 기간: <strong>2023-07-23 ~ 2023-08-31</strong>
             </div>
             <div className="recruit-etc-item">
-              채용 기간: <strong>2023-07-23 ~ 2023-08-31</strong>
+              지원자: <strong>3명</strong>
             </div>
           </div>
         </div>

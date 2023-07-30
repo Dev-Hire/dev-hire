@@ -81,13 +81,13 @@ const PAGE_LIST: PublishPageInfo[] = [
       {
         key: 'recruit-add',
         label: '공고 등록',
-        isDone: false,
+        isDone: true,
       },
 
       {
         key: 'recruit-edit',
         label: '공고 수정',
-        isDone: false,
+        isDone: true,
       },
     ],
   },
