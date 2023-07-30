@@ -1,13 +1,12 @@
-import React from 'react';
+import HeaderAuth from '@/components/layouts/HeaderAuth';
+import HeaderSearchbar from '@/components/layouts/HeaderSearchbar';
+import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import HeaderSearchbar from '@/components/layouts/HeaderSearchbar';
-import HeaderAuth from '@/components/layouts/HeaderAuth';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 export default function LayoutHeader() {
   return (

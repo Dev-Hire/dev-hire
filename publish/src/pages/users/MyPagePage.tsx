@@ -21,7 +21,7 @@ const MyPagePage = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [recruits, setRecruits] = useState([]);
 
-  const handleChange = (event: SyntheticEvent, newIndex: number) => {
+  const handleChange = (_: SyntheticEvent, newIndex: number) => {
     setTabIndex(newIndex);
   };
 

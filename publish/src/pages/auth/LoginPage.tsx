@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import LoginModal from '@/components/auth/LoginModal';
+import { useState } from 'react';
 
 const LoginPage = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -10,7 +10,7 @@ const LoginPage = () => {
     setIsOpen(false);
   };
 
-  return <LoginModal isOpen={isOpen} hide={handleHide} />;
+  return <LoginModal isOpen={isOpen} onClose={handleHide} />;
 };
 
 export default LoginPage;

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import RecruitCard from '@/components/recruits/RecruitCard';
 import { getRecruits } from '@/api/index';
-import { Recruit } from '@/types/recruit';
 import Layout from '@/components/layouts/Layout';
+import RecruitCard from '@/components/recruits/RecruitCard';
+import { Recruit } from '@/types/recruit';
+import { useEffect, useState } from 'react';
 
 const HomePage = () => {
   const [recruits, setRecruits] = useState([]);

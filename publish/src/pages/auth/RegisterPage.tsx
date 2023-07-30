@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import RegisterModal from '@/components/auth/RegisterModal';
+import { useState } from 'react';
 
 const LoginPage = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -10,7 +10,7 @@ const LoginPage = () => {
     setIsOpen(false);
   };
 
-  return <RegisterModal isOpen={isOpen} hide={handleHide} />;
+  return <RegisterModal isOpen={isOpen} onClose={handleHide} />;
 };
 
 export default LoginPage;

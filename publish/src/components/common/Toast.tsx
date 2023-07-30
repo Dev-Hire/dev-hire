@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
+import { SyntheticEvent, useState } from 'react';
 
 interface ToastProps {
   message: string;
@@ -19,10 +19,7 @@ export default function Toast({
 }: ToastProps) {
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (_?: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }

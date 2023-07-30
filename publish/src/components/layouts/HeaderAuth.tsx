@@ -1,7 +1,6 @@
-import React from 'react';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 
 const HeaderAuth = ({ isLogin }: { isLogin: boolean }) => {
   return !isLogin ? (
