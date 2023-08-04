@@ -10,12 +10,9 @@ import RecruitAddPage from '@/pages/recruits/RecruitAddPage';
 import RecruitDetailPage from '@/pages/recruits/RecruitDetailPage';
 import RecruitEditPage from '@/pages/recruits/RecruitEditPage';
 import PublishList from '@/pub/PublishList';
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from 'react-router-dom';
+
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import PrivateRoute from '@/utils/PrivateRoute';
 
 const PublishRouter = () => {
   return (
@@ -30,8 +27,10 @@ const PublishRouter = () => {
         <Route path="/loading" element={<LoadingPage />} />
 
         {/* 인증 */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<PrivateRoute authentication="LOGOUT" />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
         {/* 홈 */}
         <Route path="/home" element={<HomePage />} />
