@@ -1,4 +1,5 @@
 import { postUserLogin } from '@/api/auth.api';
+import { UserLoginRequest } from '@/types/auth';
 import { Link } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -19,11 +20,11 @@ interface LoginModalProps {
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserLoginRequest>({
     email: '',
     password: '',
   });
-  const [formErrors, setFormErrors] = useState({
+  const [formErrors, setFormErrors] = useState<UserLoginRequest>({
     email: '',
     password: '',
   });
