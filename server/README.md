@@ -9,7 +9,7 @@
 ```bash
 # mongo
 docker run -d \
-  -p 1234:8081 \
+  -p 1234:27017 \
 	-e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
 	-e MONGO_INITDB_ROOT_PASSWORD=secret \
 	mongo
