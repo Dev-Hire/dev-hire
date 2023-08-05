@@ -1,3 +1,4 @@
+import { Link } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -5,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -12,6 +14,7 @@ interface RegisterModalProps {
 }
 
 export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
+  const navigate = useNavigate();
   const handleClose = (isSuccess: boolean = false) => {
     if (typeof onClose === 'function') onClose(isSuccess);
   };
@@ -31,14 +34,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             variant="standard"
           />
 
-          <TextField
-            fullWidth
-            margin="dense"
-            id="password"
-            label="비밀번호"
-            type="password"
-            variant="standard"
-          />
+          <TextField fullWidth margin="dense" id="password" label="비밀번호" type="password" variant="standard" />
 
           <TextField
             fullWidth
@@ -49,19 +45,18 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             variant="standard"
           />
 
-          <TextField
-            fullWidth
-            margin="dense"
-            id="name"
-            label="이름"
-            type="name"
-            variant="standard"
-          />
+          <TextField fullWidth margin="dense" id="name" label="이름" type="name" variant="standard" />
 
           <DialogContentText>
             <small>
               계정이 이미 있으신가요?{' '}
-              <span className="link">로그인하러 가기</span>
+              <Link
+                onClick={() => navigate('/login')}
+                component="button"
+                sx={{ color: 'inherit', textDecorationColor: 'inherit', fontWeight: 500, verticalAlign: 'baseline' }}
+              >
+                로그인하러 가기
+              </Link>
             </small>
           </DialogContentText>
         </DialogContent>

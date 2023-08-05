@@ -1,3 +1,4 @@
+import { formatCustomError } from '@/utils/errorHandling';
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000/api';
@@ -22,6 +23,10 @@ Axios.interceptors.request.use(
 // Add a response interceptor
 Axios.interceptors.response.use(
   function (response) {
+    // response.data.success가 false인 값을 에러 형태로 바꿔준다.
+    if (response.data.success === false) {
+      return formatCustomError(response);
+    }
     return response;
   },
   function (error) {
