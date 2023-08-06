@@ -13,7 +13,6 @@
 
     .recruit-title {
       flex: 1;
-      margin-right: 5px;
       font-size: 1.5rem;
       font-weight: bold;
     }
@@ -22,6 +21,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      margin-left: 5px;
       font-size: 1.1rem;
     }
   }
@@ -159,6 +159,13 @@
         padding: 5px 0;
       }
     }
+  }
+
+  .recruit-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
 
   .recruit-input-inline {
