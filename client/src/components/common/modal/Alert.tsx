@@ -13,13 +13,7 @@ interface AlertProps {
   onClose?: (isConfirm: boolean) => void;
 }
 
-export default function Alert({
-  title,
-  message,
-  confirm = '확인',
-  isOpen = false,
-  onClose,
-}: AlertProps) {
+export default function Alert({ title, message, confirm = '확인', isOpen = false, onClose }: AlertProps) {
   const handleClose = (isConfirm: boolean) => {
     if (typeof onClose === 'function') onClose(isConfirm);
   };

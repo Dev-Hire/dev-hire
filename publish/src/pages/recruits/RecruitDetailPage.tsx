@@ -1,4 +1,3 @@
-
 import { getRecruit } from '@/api';
 import Layout from '@/components/layouts/Layout';
 import { Chip, ImageList, ImageListItem } from '@mui/material';
@@ -10,15 +9,14 @@ interface RecruitDetailPageProps {
 }
 
 const RecruitDetailPage = ({ recruitId }: RecruitDetailPageProps) => {
-
   const [recruit, setRecruit] = useState<Recruit | null>(null);
 
   useEffect(() => {
     // TODO: Change
-    const recruitId = "r1"
+    const recruitId = 'r1';
     getRecruit(recruitId).then((res) => {
       const recruit = res.data.recruit;
-      console.log("recruit", recruit);
+      console.log('recruit', recruit);
       setRecruit(recruit);
     });
   }, []);
@@ -35,7 +33,7 @@ const RecruitDetailPage = ({ recruitId }: RecruitDetailPageProps) => {
           <div className="recruit-title">{recruit.title}</div>
 
           <div className="recruit-status">
-            <Chip label="지원하기" color="primary" onClick={() => { }} />
+            <Chip label="지원하기" color="primary" onClick={() => {}} />
             <Chip label="내가 지원한 공고" color="error" />
           </div>
         </div>
@@ -81,7 +79,9 @@ const RecruitDetailPage = ({ recruitId }: RecruitDetailPageProps) => {
           <div className="recruit-description-title">모집 내용</div>
           <div
             className="recruit-description-content"
-            dangerouslySetInnerHTML={{ __html: recruit.description.replace(/\n/g, '<br />') }}
+            dangerouslySetInnerHTML={{
+              __html: recruit.description.replace(/\n/g, '<br />'),
+            }}
           />
         </div>
 
@@ -92,12 +92,19 @@ const RecruitDetailPage = ({ recruitId }: RecruitDetailPageProps) => {
               연봉: <strong>{recruit.salary}원</strong>
             </div>
             <div className="recruit-etc-item">
-              채용 기간: <strong>{recruit.startDate} ~ {recruit.endDate}</strong>
+              채용 기간:{' '}
+              <strong>
+                {recruit.startDate} ~ {recruit.endDate}
+              </strong>
             </div>
             <div className="recruit-etc-item">
               지원자: <strong>{recruit.applicants.length}명</strong>
             </div>
           </div>
+        </div>
+
+        <div className="recruit-buttons">
+          <Chip label="목록으로" color="primary" onClick={() => {}} />
         </div>
       </div>
     </Layout>

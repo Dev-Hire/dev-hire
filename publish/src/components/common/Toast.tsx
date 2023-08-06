@@ -11,10 +11,9 @@ interface ToastProps {
 
 export default function Toast({
   message,
-  duration = 5000,
+  duration = 3000,
   vertical = 'bottom',
   horizontal = 'center',
-
   onClose,
 }: ToastProps) {
   const [isOpen, setIsOpen] = useState(true);
