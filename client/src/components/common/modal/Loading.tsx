@@ -5,11 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 interface LoadingProps {
-  message: string;
+  message?: string;
   isOpen?: boolean;
 }
 
-export default function Loading({ message, isOpen = false }: LoadingProps) {
+export default function Loading({ message = '잠시만 기다려주세요...', isOpen = false }: LoadingProps) {
   return (
     <Dialog open={isOpen}>
       <DialogTitle style={{ marginTop: '10px', textAlign: 'center' }}>

@@ -7,30 +7,29 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 export default function LayoutHeader() {
   return (
     <Box className="layout-header" sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            className="menu-button"
-            size="large"
-            edge="start"
-            color="inherit"
-            sx={{ mr: 2 }}
-          >
+          <IconButton className="menu-button" size="large" edge="start" color="inherit" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <div className="header-logo">DevHire</div>
+            <Link to="/home">
+              <div className="header-logo">DevHire</div>
+            </Link>
           </Typography>
 
           <HeaderSearchbar />
 
           <Box className="menu-box">
-            <Button color="inherit">공고 등록</Button>
+            <Link to="/recruit-add">
+              <Button color="inherit">공고 등록</Button>
+            </Link>
           </Box>
 
           <HeaderAuth isLogin={false} />

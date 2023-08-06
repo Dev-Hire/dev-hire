@@ -1,9 +1,16 @@
-import PublishRouter from './pub/PublishRouter';
+import ModalProvider from '@/components/common/ModalProvider';
+import AppRouter from '@/components/AppRouter';
 
 function App() {
   return (
     <>
-      <PublishRouter />
+      <ModalProvider>
+        {/* Router */}
+        <AppRouter />
+      </ModalProvider>
+
+      {/* 모달 */}
+      {/* <ModalController /> */}
     </>
   );
 }

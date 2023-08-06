@@ -14,7 +14,6 @@ export default function Toast({
   duration = 5000,
   vertical = 'bottom',
   horizontal = 'center',
-
   onClose,
 }: ToastProps) {
   const [isOpen, setIsOpen] = useState(true);

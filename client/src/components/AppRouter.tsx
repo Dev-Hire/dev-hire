@@ -1,15 +1,10 @@
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegisterPage';
-import AlertPage from '@/pages/common/AlertPage';
-import ConfirmPage from '@/pages/common/ConfirmPage';
-import LoadingPage from '@/pages/common/LoadingPage';
-import ToastPage from '@/pages/common/ToastPage';
 import HomePage from '@/pages/home/HomePage';
 import MyPagePage from '@/pages/users/MyPagePage';
 import RecruitAddPage from '@/pages/recruits/RecruitAddPage';
 import RecruitDetailPage from '@/pages/recruits/RecruitDetailPage';
 import RecruitEditPage from '@/pages/recruits/RecruitEditPage';
-import PublishList from '@/pub/PublishList';
 
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import PrivateRoute from '@/utils/PrivateRoute';
@@ -18,14 +13,6 @@ const PublishRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<PublishList />} />
-
-        {/* 공통 */}
-        <Route path="/alert" element={<AlertPage />} />
-        <Route path="/confirm" element={<ConfirmPage />} />
-        <Route path="/toast" element={<ToastPage />} />
-        <Route path="/loading" element={<LoadingPage />} />
-
         {/* 인증 */}
         <Route element={<PrivateRoute authentication="LOGOUT" />}>
           <Route path="/login" element={<LoginPage />} />
@@ -44,7 +31,7 @@ const PublishRouter = () => {
         <Route path="/recruit-edit" element={<RecruitEditPage />} />
 
         {/* 404 */}
-        <Route path="/" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </Router>
   );

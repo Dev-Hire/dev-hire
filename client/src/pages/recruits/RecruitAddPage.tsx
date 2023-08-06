@@ -12,8 +12,11 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useModal from '@/hooks/useModal';
 
 const RecruitAddPage = () => {
+  const { showAlert } = useModal();
+
   return (
     <Layout>
       <div className="recruit">
@@ -23,7 +26,7 @@ const RecruitAddPage = () => {
           </div>
 
           <div className="recruit-status">
-            <Chip label="저장하기" color="primary" onClick={() => {}} />
+            <Chip label="저장하기" color="primary" onClick={() => showAlert('asdfasdf')} />
             <Chip label="돌아가기" color="warning" onClick={() => {}} />
           </div>
         </div>
