@@ -1,10 +1,10 @@
-import React, { ReactElement, createContext, useEffect, useState } from 'react';
+import { Axios } from '@/api/base.api';
 import Alert from '@/components/common/modal/Alert';
 import Confirm from '@/components/common/modal/Confirm';
-import Toast from '@/components/common/modal/Toast';
 import Loading from '@/components/common/modal/Loading';
+import Toast from '@/components/common/modal/Toast';
 import { Alert as AlertType, Confirm as ConfirmType, Loading as LoadingType, Toast as ToastType } from '@/types/common';
-import { Axios } from '@/api/base.api';
+import React, { ReactElement, createContext, useEffect, useState } from 'react';
 
 export interface ModalContextType {
   alerts: AlertType[];
@@ -34,51 +34,56 @@ export const ModalProvider = ({ children }: { children: ReactElement }) => {
   const [toasts, setToasts] = useState<ToastType[]>([]);
   const [loadings, setLoadings] = useState<LoadingType[]>([]);
 
-  const apiLoadingId = 'apiLoading';
-  const showApiLoading = () => {
-    const apiLoading: LoadingType = {
-      id: apiLoadingId,
-      type: 'loading',
-      message: '로딩중 입니다.',
-      isOpen: true,
+  // API 통신 시 로딩 표시
+  const bindApiLoading = () => {
+    const apiLoadingId = 'apiLoading';
+    const showApiLoading = () => {
+      const apiLoading: LoadingType = {
+        id: apiLoadingId,
+        type: 'loading',
+        message: '로딩중 입니다.',
+        isOpen: true,
+      };
+      setLoadings((prev) => [...prev, apiLoading]);
     };
-    setLoadings((prev) => [...prev, apiLoading]);
+
+    const hideApiLoading = async () => {
+      setLoadings((prev) => {
+        const apiLoadingIndex = prev.findIndex((loading) => loading.id === apiLoadingId);
+        if (apiLoadingIndex === -1) return prev;
+
+        const newLoadings = [...prev];
+        newLoadings.splice(apiLoadingIndex, 1);
+        return newLoadings;
+      });
+    };
+
+    // Add a request interceptor
+    Axios.interceptors.request.use(
+      function (config) {
+        showApiLoading();
+        return config;
+      },
+      function (error) {
+        hideApiLoading();
+        return Promise.reject(error);
+      },
+    );
+
+    // Add a response interceptor
+    Axios.interceptors.response.use(
+      function (response) {
+        hideApiLoading();
+        return response;
+      },
+      function (error) {
+        hideApiLoading();
+        return Promise.reject(error);
+      },
+    );
   };
 
-  const hideApiLoading = async () => {
-    setLoadings((prev) => {
-      const apiLoadingIndex = prev.findIndex((loading) => loading.id === apiLoadingId);
-      if (apiLoadingIndex === -1) return prev;
-
-      const newLoadings = [...prev];
-      newLoadings.splice(apiLoadingIndex, 1);
-      return newLoadings;
-    });
-  };
-
-  // Add a request interceptor
-  Axios.interceptors.request.use(
-    function (config) {
-      showApiLoading();
-      return config;
-    },
-    function (error) {
-      hideApiLoading();
-      return Promise.reject(error);
-    },
-  );
-
-  // Add a response interceptor
-  Axios.interceptors.response.use(
-    function (response) {
-      hideApiLoading();
-      return response;
-    },
-    function (error) {
-      hideApiLoading();
-      return Promise.reject(error);
-    },
-  );
+  useEffect(bindApiLoading, []);
 
   return (
     <ModalContext.Provider
