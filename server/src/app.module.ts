@@ -4,15 +4,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RecruitsModule } from './recruiment/recruitment.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [ConfigModule, RecruitsModule],
       inject: [ConfigService],
-      useFactory:async (config:ConfigService) => ({
-          uri:config.get<string>('MONGODB_URI')
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('MONGODB_URI')
       })
     })
   ],
@@ -20,4 +24,4 @@ import { AppService } from './app.service';
   providers: [AppService],
 })
 
-export class AppModule {}
+export class AppModule { }
