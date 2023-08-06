@@ -12,22 +12,14 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import useModal from '@/hooks/useModal';
 
 const RecruitAddPage = () => {
-  const { showAlert } = useModal();
-
   return (
     <Layout>
       <div className="recruit">
         <div className="recruit-header">
           <div className="recruit-title">
             <TextField autoFocus fullWidth label="채용공고 제목" type="text" />
-          </div>
-
-          <div className="recruit-status">
-            <Chip label="저장하기" color="primary" onClick={() => showAlert('asdfasdf')} />
-            <Chip label="돌아가기" color="warning" onClick={() => {}} />
           </div>
         </div>
 
@@ -120,6 +112,11 @@ const RecruitAddPage = () => {
               <TextField margin="dense" type="date" />
             </div>
           </div>
+        </div>
+
+        <div className="recruit-buttons">
+          <Chip label="저장하기" color="primary" onClick={() => {}} />
+          <Chip label="돌아가기" color="warning" onClick={() => {}} />
         </div>
       </div>
     </Layout>

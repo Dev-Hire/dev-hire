@@ -11,14 +11,7 @@ export interface Recruit {
   startDate: string;
   endDate: string;
   images: string[];
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    positions: Position[];
-    password: string;
-    role: string;
-  };
+  user: User | string;
   applicants: string[] | User[];
   isEnded: boolean;
   createdAt: string;
@@ -30,10 +23,4 @@ export interface Position {
   experience: number;
 }
 
-export type Part =
-  | 'frontend'
-  | 'backend'
-  | 'planner'
-  | 'designer'
-  | 'publisher'
-  | 'manager';
+export type Part = 'frontend' | 'backend' | 'planner' | 'designer' | 'publisher' | 'manager';

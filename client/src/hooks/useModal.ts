@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { AlertOptions, ConfirmOptions, LoadingOptions, ToastOptions } from '@/types/common';
 import { ModalContext, ModalContextType } from '@/components/common/ModalProvider';
-import { Axios } from '@/api/base.api';
-
+3000;
 const useModal = () => {
   const { alerts, setAlerts, confirms, setConfirms, toasts, setToasts, loadings, setLoadings } =
     useContext<ModalContextType>(ModalContext);
@@ -47,7 +46,7 @@ const useModal = () => {
       title: options.title,
       message,
       onClose: (isConfirm) => {
-        hideAlert(id);
+        hideConfirm(id);
         if (typeof options.onClose === 'function') options.onClose(isConfirm);
       },
       isOpen: true,

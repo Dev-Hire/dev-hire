@@ -21,12 +21,6 @@ const RecruitEditPage = () => {
           <div className="recruit-title">
             <TextField autoFocus fullWidth label="채용공고 제목" type="text" />
           </div>
-
-          <div className="recruit-status">
-            <Chip label="저장하기" color="primary" onClick={() => {}} />
-            <Chip label="삭제하기" color="error" onClick={() => {}} />
-            <Chip label="돌아가기" color="warning" onClick={() => {}} />
-          </div>
         </div>
 
         <div className="recruit-company">
@@ -118,6 +112,12 @@ const RecruitEditPage = () => {
               <TextField margin="dense" type="date" />
             </div>
           </div>
+        </div>
+
+        <div className="recruit-buttons">
+          <Chip label="저장하기" color="primary" onClick={() => {}} />
+          <Chip label="삭제하기" color="error" onClick={() => {}} />
+          <Chip label="돌아가기" color="warning" onClick={() => {}} />
         </div>
       </div>
     </Layout>

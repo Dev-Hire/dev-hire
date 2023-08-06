@@ -27,7 +27,7 @@ const PublishRouter = () => {
 
         {/* 채용 */}
         <Route path="/recruit-add" element={<RecruitAddPage />} />
-        <Route path="/recruit-detail" element={<RecruitDetailPage />} />
+        <Route path="/recruit-detail/:id" element={<RecruitDetailPage />} />
         <Route path="/recruit-edit" element={<RecruitEditPage />} />
 
         {/* 404 */}
