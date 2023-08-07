@@ -1,101 +1,81 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateRecruitDto, UpdateRecruitDto } from './dto/recruitment.dto';
-import { recruits } from './data/recruitment.data';
+import { Recruit, RecruitDocument } from './model/recruitment.model';
+
 
 @Injectable()
 export class RecruitsService {
 
-    // TODO: Change to use MongoDB
-    private readonly recruits = recruits;
+    constructor(@InjectModel(Recruit.name) private recruitModel: Model<RecruitDocument>) {}
 
-    findAll() {
+    async findAll() {
+        const recruits = await this.recruitModel.find().exec();
         return {
             success: true,
-            data: {
-                recruits: this.recruits,
-            },
+            data: { recruits },
         };
     }
 
-    findOne(id: string) {
-        const existingRecruit = this.recruits.find(recruit => recruit.id === id);
-
+    async findOne(id: string) {
+        const existingRecruit = await this.recruitModel.findById(id).exec();
         if (!existingRecruit) {
             return {
                 success: false,
                 message: '존재하지 않는 모집글입니다.',
             };
         }
-
         return {
             success: true,
-            data: {
-                recruit: { ...existingRecruit },
-            },
+            data: { recruit: existingRecruit },
         };
     }
 
-    // TODO: user: any 타입을 User로 변경
-    create(user: any, createRecruitDto: CreateRecruitDto) {
-        const newRecruit = {
-            id: `r${this.recruits.length + 1}`,
+    async create(user: any, createRecruitDto: CreateRecruitDto) {
+        const newRecruit = new this.recruitModel({
             ...createRecruitDto,
-
-            // TODO: 기본값 "u1" 삭제
-            user: user?.id || "u1",
+            user: user?.id || "u1",  // you might want to adjust this part
             isEnded: false,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             applicants: [],
-        };
-        this.recruits.push(newRecruit);
-
+        });
+        await newRecruit.save();
         return {
             success: true,
             message: '모집글이 등록되었습니다.',
-            data: {
-                recruit: newRecruit,
-            },
+            data: { recruit: newRecruit },
         };
     }
 
-    update(id: string, updateRecruitDto: UpdateRecruitDto) {
-        const recruitIndex = this.recruits.findIndex(recruit => recruit.id === id);
-        if (recruitIndex === -1) {
+    async update(id: string, updateRecruitDto: UpdateRecruitDto) {
+        const updatedRecruit = await this.recruitModel.findByIdAndUpdate(id, {
+            ...updateRecruitDto,
+            updatedAt: new Date().toISOString(),
+        }, { new: true }).exec();  // { new: true } returns the modified document
+
+        if (!updatedRecruit) {
             return {
                 success: false,
                 message: '존재하지 않는 모집글입니다.',
             };
         }
-
-        const updatedRecruit = {
-            ...this.recruits[recruitIndex],
-            ...updateRecruitDto,
-            updatedAt: new Date().toISOString(),
-        };
-
-        this.recruits[recruitIndex] = updatedRecruit;
-
         return {
             success: true,
             message: '모집글이 수정되었습니다.',
-            data: {
-                recruit: updatedRecruit,
-            },
+            data: { recruit: updatedRecruit },
         };
     }
 
-    remove(id: string) {
-        const recruitIndex = this.recruits.findIndex(recruit => recruit.id === id);
-        if (recruitIndex === -1) {
+    async remove(id: string) {
+        const deletedRecruit = await this.recruitModel.findByIdAndDelete(id).exec();
+        if (!deletedRecruit) {
             return {
                 success: false,
                 message: '존재하지 않는 모집글입니다.',
             };
         }
-
-        this.recruits.splice(recruitIndex, 1);
-
         return {
             success: true,
             message: '모집글이 삭제되었습니다.',

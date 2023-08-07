@@ -2,7 +2,6 @@ import { Schema } from 'mongoose';
 
 // Recruit 스케마 정의 (모델 정의)
 export const RecruitSchema = new Schema({
-    id: String,
     title: String,
     description: String,
     company: String,
@@ -20,6 +19,8 @@ export const RecruitSchema = new Schema({
     applicants: [String],
     user: String,
     isEnded: Boolean,
-    createdAt: String,
-    updatedAt: String,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+}, {
+    timestamps: true,
 });
