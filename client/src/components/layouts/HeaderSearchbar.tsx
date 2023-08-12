@@ -1,6 +1,8 @@
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
+import { FormEventHandler } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,13 +47,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HeaderSearchbar() {
-  return (
-    <Search className="header-searchbar">
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
+  const navigate = useNavigate();
+  const onSubmitSearch: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    navigate(`/home?search=${(e.target as any).searchInput.value}`);
+  };
 
-      <StyledInputBase placeholder="채용 공고 검색" />
-    </Search>
+  return (
+    <form onSubmit={onSubmitSearch}>
+      <Search className="header-searchbar">
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase placeholder="채용 공고 검색" name="searchInput" autoComplete="search" />
+      </Search>
+    </form>
   );
 }
