@@ -8,6 +8,9 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { RecruitsModule } from './recruiment/recruitment.module';
+import { UsersModule } from './users/users.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,7 +18,7 @@ import { AppService } from './app.service';
       envFilePath: '.env',
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule, RecruitsModule],
+      imports: [ConfigModule, RecruitsModule, UsersModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('MONGODB_URI'),
