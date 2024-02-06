@@ -1,176 +1,14 @@
-const path = require('path');
 const express = require('express');
-const app = express();
+const { authMiddleware, populate } = require('./utils');
+const { users, recruits } = require('./data');
+const { JWT_SECRET } = require('./config');
 
-const PORT = 4000;
-const JWT_SECRET = 'sdfalkjwlkj';
-const users = [
-  {
-    id: 'u1',
-    email: 'admin@admin.com',
-    password: '1234',
-    name: '관리자',
-    positions: [],
-    recruits: [],
-    role: 'admin',
-  },
-  {
-    id: 'u2',
-    email: 'test@test.com',
-    password: '1234',
-    name: '테스트',
-    positions: [
-      {
-        part: 'frontend',
-        experience: 0,
-      },
-    ],
-    recruits: ['r1'],
-    role: 'developer',
-  },
-  {
-    id: 'u3',
-    email: 'test2@test2.com',
-    password: '1234',
-    name: '테스트2',
-    positions: [
-      {
-        part: 'frontend',
-        experience: 2,
-      },
-      {
-        part: 'backend',
-        experience: 5,
-      },
-    ],
-    recruits: ['r1', 'r2'],
-    role: 'developer',
-  },
-  {
-    id: 'u4',
-    email: 'employer@employer.com',
-    password: '1234',
-    name: '고용주',
-    positions: [],
-    recruits: [],
-    role: 'employer',
-  },
-  {
-    id: 'u5',
-    email: 'employer2@employer2.com',
-    password: '1234',
-    name: '고용주2',
-    positions: [],
-    recruits: [],
-    role: 'employer',
-  },
-];
-const recruits = [
-  {
-    id: 'r1',
-    title: '신입 웹 개발자 모집',
-    description:
-      '저희 DevWorld에서 신입 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
-    company: 'DevWorld',
-    address: '서울특별시 강남구 서초동',
-    positions: [
-      {
-        part: 'frontend',
-        experience: 0,
-      },
-      {
-        part: 'backend',
-        experience: 0,
-      },
-    ],
-    salary: 35000000,
-    startDate: '2023-07-29',
-    endDate: '2023-08-31',
-    images: [
-      'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2',
-      'https://images.unsplash.com/photo-1497215728101-856f4ea42174',
-      'https://images.unsplash.com/photo-1606857521015-7f9fcf423740',
-    ],
-    applicants: ['u2', 'u3'],
-    user: 'u4',
-    isEnded: false,
-    createdAt: '2023-07-29',
-    updatedAt: '2023-07-29',
-  },
-
-  {
-    id: 'r2',
-    title: '경력 웹 개발자 모집',
-    description:
-      '저희 DevPro에서 경력 웹 개발자를 모집합니다. 많은 지원 바랍니다. 감사합니다.',
-    company: 'DevPro',
-    address: '경기도 분당시 정자동',
-    positions: [
-      {
-        part: 'frontend',
-        experience: 2,
-      },
-      {
-        part: 'backend',
-        experience: 3,
-      },
-    ],
-    salary: 50000000,
-    startDate: '2023-07-29',
-    endDate: '2023-08-31',
-    images: [
-      'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2',
-      'https://images.unsplash.com/photo-1497215728101-856f4ea42174',
-      'https://images.unsplash.com/photo-1606857521015-7f9fcf423740',
-    ],
-    applicants: ['u3'],
-    user: 'u5',
-    isEnded: false,
-    createdAt: '2023-07-29',
-    updatedAt: '2023-07-29',
-  },
-];
-
-// 미들웨어
-app.use(express.json());
-app.use(basicLogger);
-app.use(express.static('dist'));
-
-// 토큰 파싱 미들웨어 [임시]
-const authMiddleware = (req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization) {
-    return res
-      .status(401)
-      .json({ success: false, message: '인증 정보가 없습니다.' });
-  }
-
-  const [tokenType, tokenValue] = authorization.split(' ');
-
-  if (tokenType !== 'Bearer') {
-    return res
-      .status(401)
-      .json({ success: false, message: '인증 토큰이 없습니다.' });
-  }
-
-  // 토큰 파싱
-  const [_, userIndex, tokenSecret] = tokenValue.split('.');
-  const isValidToken = tokenSecret === JWT_SECRET;
-  if (!isValidToken) {
-    return res
-      .status(401)
-      .json({ success: false, message: '토큰이 정상적이지 않습니다.' });
-  }
-
-  // 토큰 파싱 완료 되면 유저정보 세팅
-  req.user = users[userIndex];
-
-  next();
-};
+// Express Router
+const router = express.Router();
 
 // 임시 API
 // 로그인
-app.post('/api/v1/auth/login', (req, res) => {
+router.post('/api/v1/auth/login', (req, res) => {
   const { email, password } = req.body;
 
   const userIndex = users.findIndex((user) => user.email === email);
@@ -197,7 +35,7 @@ app.post('/api/v1/auth/login', (req, res) => {
 });
 
 // 회원가입
-app.post('/api/v1/auth/register', (req, res) => {
+router.post('/api/v1/auth/register', (req, res) => {
   const { email, password, name, role = 'developer' } = req.body;
 
   // 필수 값 확인
@@ -241,7 +79,7 @@ app.post('/api/v1/auth/register', (req, res) => {
 });
 
 // 모집글 목록 조회
-app.get('/api/v1/recruits', (req, res) => {
+router.get('/api/v1/recruits', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -251,7 +89,7 @@ app.get('/api/v1/recruits', (req, res) => {
 });
 
 // 모집글 상세 조회
-app.get('/api/v1/recruits/:id', (req, res) => {
+router.get('/api/v1/recruits/:id', (req, res) => {
   const { id } = req.params;
   const existingRecruit = recruits.find((recruit) => recruit.id === id);
   if (!existingRecruit) {
@@ -277,7 +115,7 @@ app.get('/api/v1/recruits/:id', (req, res) => {
 });
 
 // 모집글 등록
-app.post('/api/v1/recruits', authMiddleware, (req, res) => {
+router.post('/api/v1/recruits', authMiddleware, (req, res) => {
   const {
     title,
     description,
@@ -336,7 +174,7 @@ app.post('/api/v1/recruits', authMiddleware, (req, res) => {
 });
 
 // 모집글 수정
-app.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
+router.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   const {
     title,
@@ -387,7 +225,7 @@ app.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
 });
 
 // 채용 삭제
-app.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
+router.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -414,7 +252,7 @@ app.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
 });
 
 // 내 정보
-app.get('/api/v1/users/me', authMiddleware, (req, res) => {
+router.get('/api/v1/users/me', authMiddleware, (req, res) => {
   const user = { ...req.user };
   if (!user) {
     return res.json({
@@ -437,7 +275,7 @@ app.get('/api/v1/users/me', authMiddleware, (req, res) => {
 });
 
 // 채용 지원
-app.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+router.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -474,7 +312,7 @@ app.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
 });
 
 // 채용 지원 취소
-app.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+router.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
 
@@ -512,7 +350,7 @@ app.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
 });
 
 // 내 정보 수정
-app.put('/api/v1/users/me', authMiddleware, (req, res) => {
+router.put('/api/v1/users/me', authMiddleware, (req, res) => {
   const { name, positions, password, newPassword, role } = req.body;
 
   const loginUser = req.user;
@@ -548,7 +386,7 @@ app.put('/api/v1/users/me', authMiddleware, (req, res) => {
 });
 
 // 채용 종료
-app.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
+router.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -581,7 +419,7 @@ app.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
 });
 
 // 채용 재시작
-app.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
+router.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -613,38 +451,4 @@ app.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
   });
 });
 
-/* 그 외의 경로는 전부 Public 폴더의 경로로 Redirect */
-const publishPath = path.resolve(__dirname, 'dist/index.html');
-app.get('*', (req, res) => res.sendFile(publishPath));
-
-// Mock API 서버 실행
-app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
-
-// Logger
-function basicLogger(req, _, next) {
-  console.log(`[${req.method}] ${req.url}`);
-  next();
-}
-
-// Populate 함수
-function populate(model, populates) {
-  for (const key in populates) {
-    const populate = populates[key];
-    const populateModel =
-      populate === 'user' ? users : populate === 'recruit' ? recruits : null;
-    if (!populateModel) continue;
-
-    const target = model[key];
-    if (typeof target === 'string') {
-      const targetId = target;
-      const populated = populateModel.find((user) => user.id === targetId);
-      model[key] = populated;
-    } else if (Array.isArray(target)) {
-      const targets = target.map((targetId, index) => {
-        const populated = populateModel.find((user) => user.id === targetId);
-        return populated;
-      });
-      model[key] = targets;
-    }
-  }
-}
+module.exports = router;
