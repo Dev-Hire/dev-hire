@@ -2,7 +2,7 @@ import { formatCustomError } from '@/utils/errorHandling';
 import axios from 'axios';
 
 const API_PORT = import.meta.env.VITE_API_PORT;
-const BASE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:${API_PORT}/api/` : '/';
+const BASE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:${API_PORT}/api` : '/api';
 
 export const Axios = axios.create({
   baseURL: BASE_URL,
