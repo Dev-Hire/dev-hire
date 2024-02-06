@@ -8,7 +8,7 @@ const router = express.Router();
 
 // 임시 API
 // 로그인
-router.post('/api/v1/auth/login', (req, res) => {
+router.post('/v1/auth/login', (req, res) => {
   const { email, password } = req.body;
 
   const userIndex = users.findIndex((user) => user.email === email);
@@ -35,7 +35,7 @@ router.post('/api/v1/auth/login', (req, res) => {
 });
 
 // 회원가입
-router.post('/api/v1/auth/register', (req, res) => {
+router.post('/v1/auth/register', (req, res) => {
   const { email, password, name, role = 'developer' } = req.body;
 
   // 필수 값 확인
@@ -79,7 +79,7 @@ router.post('/api/v1/auth/register', (req, res) => {
 });
 
 // 모집글 목록 조회
-router.get('/api/v1/recruits', (req, res) => {
+router.get('/v1/recruits', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -89,7 +89,7 @@ router.get('/api/v1/recruits', (req, res) => {
 });
 
 // 모집글 상세 조회
-router.get('/api/v1/recruits/:id', (req, res) => {
+router.get('/v1/recruits/:id', (req, res) => {
   const { id } = req.params;
   const existingRecruit = recruits.find((recruit) => recruit.id === id);
   if (!existingRecruit) {
@@ -115,7 +115,7 @@ router.get('/api/v1/recruits/:id', (req, res) => {
 });
 
 // 모집글 등록
-router.post('/api/v1/recruits', authMiddleware, (req, res) => {
+router.post('/v1/recruits', authMiddleware, (req, res) => {
   const {
     title,
     description,
@@ -174,7 +174,7 @@ router.post('/api/v1/recruits', authMiddleware, (req, res) => {
 });
 
 // 모집글 수정
-router.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
+router.put('/v1/recruits/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   const {
     title,
@@ -225,7 +225,7 @@ router.put('/api/v1/recruits/:id', authMiddleware, (req, res) => {
 });
 
 // 채용 삭제
-router.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
+router.delete('/v1/recruits/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -252,7 +252,7 @@ router.delete('/api/v1/recruits/:id', authMiddleware, (req, res) => {
 });
 
 // 내 정보
-router.get('/api/v1/users/me', authMiddleware, (req, res) => {
+router.get('/v1/users/me', authMiddleware, (req, res) => {
   const user = { ...req.user };
   if (!user) {
     return res.json({
@@ -275,7 +275,7 @@ router.get('/api/v1/users/me', authMiddleware, (req, res) => {
 });
 
 // 채용 지원
-router.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+router.post('/v1/recruits/:id/apply', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -312,7 +312,7 @@ router.post('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
 });
 
 // 채용 지원 취소
-router.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
+router.delete('/v1/recruits/:id/apply', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
 
@@ -350,7 +350,7 @@ router.delete('/api/v1/recruits/:id/apply', authMiddleware, (req, res) => {
 });
 
 // 내 정보 수정
-router.put('/api/v1/users/me', authMiddleware, (req, res) => {
+router.put('/v1/users/me', authMiddleware, (req, res) => {
   const { name, positions, password, newPassword, role } = req.body;
 
   const loginUser = req.user;
@@ -386,7 +386,7 @@ router.put('/api/v1/users/me', authMiddleware, (req, res) => {
 });
 
 // 채용 종료
-router.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
+router.put('/v1/recruits/:id/end', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
@@ -419,7 +419,7 @@ router.put('/api/v1/recruits/:id/end', authMiddleware, (req, res) => {
 });
 
 // 채용 재시작
-router.put('/api/v1/recruits/:id/restart', authMiddleware, (req, res) => {
+router.put('/v1/recruits/:id/restart', authMiddleware, (req, res) => {
   const { id } = req.params;
   const recruitIndex = recruits.findIndex((recruit) => recruit.id === id);
   if (recruitIndex < 0) {
