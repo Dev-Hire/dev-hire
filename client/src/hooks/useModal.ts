@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AlertOptions, ConfirmOptions, LoadingOptions, ToastOptions } from '@/types/common';
 import { ModalContext, ModalContextType } from '@/components/common/ModalProvider';
 3000;
